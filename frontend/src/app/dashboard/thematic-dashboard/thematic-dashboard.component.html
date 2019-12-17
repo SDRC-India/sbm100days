@@ -1,0 +1,79 @@
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-3 page-heading">
+        <h4>Dashboard</h4>
+    </div>
+    <div class="col-md-9 page-heading"> 
+      <p class="float-right">As on date {{myDate | date:'dd-MM-yyyy'}} </p>
+    </div>
+</div>
+<div class="row">  
+   <div class="col-lg-3">
+    <section class="list-selection">
+        <ul class="tabs-left" *ngIf="tabKeys">          
+            <li  [ngClass]="i==mapNameData-1? 'selected': ''" *ngFor="let opt of tabKeys | removeArray : 'noOfSwachhagrahi'; let i = index;" value="{{opt.key}}" >
+              <a data-toggle="tab" aria-expanded="false" (click)="selectTabs(opt)">
+                  <div class="text-center">
+                        <h2><strong>{{thematicDropDownList[opt]}}<span *ngIf="opt=='coverage' || opt=='geoTagging'">%</span></strong></h2>
+                        <h6>{{opt=='coverage'?'Coverage':opt=='geoTagging'?'Geo Tagging':opt=='odfDeclaredVillage'?'ODF Declared Village':''}}</h6>
+                  </div>
+              </a>
+            </li>          
+        </ul>        
+        <ul *ngIf="sideAreaName!='Odisha'" >
+        <li class="back-tab">
+          <a (click)="backToMap()" style="cursor: pointer;"><i class="fa fa-angle-double-left"></i>&nbsp;Back to State Level</a>
+        </li>
+        </ul>
+    </section>
+   
+   </div>
+  
+   <div class="col-lg-7">         
+    <section class="map-view" id="map-view">
+     <div id="map">
+      <div class="map_popover"><div id="map_popover_content" class="map_popover_content"></div></div>
+      <div *ngIf="thematicData" [mapData]="mapData"></div>
+     </div>
+    </section>
+   </div>
+
+   <div class="col-lg-2">
+     <div class="text-right area-content">
+       <div>{{indicatorName=='coverage'?'Coverage':indicatorName=='geoTagging'?'Geo Tagging':indicatorName=='odfDeclaredVillage'?'ODF Declared Village':indicatorName}}</div>
+       <h6><span>{{sideAreaName}}-</span>{{indicatorValue}}<span *ngIf="indicatorName=='coverage' || indicatorName=='Coverage'|| indicatorName=='geoTagging' || indicatorName=='Geo Tagging'">%</span></h6>
+     </div>
+     <div class="direction">
+        <img class="img-responsive" src="assets/images/north_arrow_new.png">
+      </div>  
+  </div>
+  
+  <div class="trend-chart" *ngIf="lineChartVisible">
+      <button class="close trend-close" aria-hidden="true" type="button" (click)="closeViz()" style="color:#fff;">
+          <i class="fa fa-window-close" aria-hidden="true"></i>
+      </button>
+      <div class="row" style="padding: 10px; color: #fff;">
+        <div class="col-md-4">{{areaName}}</div>
+        <!-- <div class="col-md-7"><span class="float-right">{{indicatorName=='coverage'?'Coverage':indicatorName=='geoTagging'?'Geo Tagging':indicatorName=='odfDeclaredVillage'?'ODF Declared Village':indicatorName}}: {{lineChartData?lineChartData[lineChartData.length-1].value:'NA'}}<span *ngIf="indicatorName=='coverage' || indicatorName=='Coverage'|| indicatorName=='geoTagging' || indicatorName=='Geo Tagging'">%</span></span> -->
+          <div class="col-md-7"><span class="float-center">Daily Progress</span>
+        </div>
+      </div>
+      <div class="col-md-12 lineChartPlace" style="border-bottom: 1px solid #fff;"></div>
+      <app-line-chart *ngIf="lineChartData" [data]="lineChartData"></app-line-chart>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+  <section id="legendsection" class="legends">
+    <h6 class="legend-heading">LEGEND</h6>
+    <ul *ngIf="thematicData">
+      <li *ngFor ="let legend of legendData.legends" class="legend_list">
+       <div class="{{legend.value}} legnedblock"> </div>    
+       <span	class="legend_key">{{legend.keyValue}}</span>                                          
+      </li> 
+    </ul>  
+  </section> 
+ </div>
+</div>
+</div>

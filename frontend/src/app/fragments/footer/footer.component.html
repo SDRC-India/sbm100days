@@ -1,0 +1,48 @@
+<footer id="foot" class="footer">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 copy-right">
+				<img class="footer-img" src="./assets/images/logos/logo1.png" alt="footerimage">
+				<p class="department">Panchayati Raj & Drinking Water Department,<br>
+					Secretariet, Sachibalaya Marg, Bhubaneswar-751001<br>
+					E-Mail- oswsm@rediffmail.com
+				</p>
+
+			</div>
+			<div class="col-md-4 footer-all-links text-left">
+				<ul class="footer-links">
+					<li class="nav-item" [ngClass]="{'active': router.url=='/terms-of-use'}">
+						<a class="nav-link" routerLink="/terms-of-use" href="/terms-of-use">Terms of Use</a>
+					</li>
+					<li class="nav-item" [ngClass]="{'active': router.url=='/privacy-policy'}">
+						<a class="nav-link" routerLink="/privacy-policy">Privacy Policy</a>
+					</li>
+					<li class="nav-item" [ngClass]="{'active': router.url=='/disclaimer'}">
+						<a class="nav-link" routerLink="/disclaimer" >Disclaimer</a>
+					</li>
+					<li class="nav-item" [ngClass]="{'active': router.url=='/sitemap'}">
+						<a class="nav-link" routerLink="/sitemap" >Sitemap</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-4 social-all-links">				
+				<div class="social text-right">
+					<label class="screenReader">Connect with us :</label>
+					<ul class="social-links">							
+						<li><a target="_blank" href="https://www.facebook.com/sbmgodisha/"><img src="./assets/images/facebook.png"
+								 alt="facebook sbm"></a></li>
+						<li><a target="_blank" href="https://twitter.com/sbmodisha"><img src="./assets/images/twitter.png"
+								 alt="twitter sbm"></a></li>
+						<li><a target="_blank" href="https://goo.gl/Mg99Gz"><img src="./assets/images/ytube.png"
+								 alt="ytube sbm"></a></li>	
+						<li><span class="supported">Supported by <a href="https://www.unicef.org/" target="_blank">Unicef</a></span></li>												 
+					</ul>
+				</div>
+				<!-- <div class="supported">
+					<span>Supported by <a href="https://www.unicef.org/" target="_blank" style="color:#1CABE2;">Unicef</a></span>
+				</div> -->
+			</div>
+
+		</div>
+	</div>
+</footer>

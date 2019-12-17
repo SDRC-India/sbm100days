@@ -1,0 +1,33 @@
+#card {
+    width : 90% ;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.plus{
+    font-weight: 600;
+    font-size: 17px;
+    font-weight: 600;
+    font-size: 19px;
+    background-color: #2727a2;
+    border-radius: 50%;
+    padding: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.addbutton-inmates{
+    text-align: right;
+}
+
+.mat-card{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.mat-card-title {
+    border-bottom: solid 1px #bdb3b3;
+}
+.mat-tab-body-wrapper{
+    margin-top: 10px !important;
+}

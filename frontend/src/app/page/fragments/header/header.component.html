@@ -1,0 +1,157 @@
+<!-- header login section start -->
+<div class="container-fluid background">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4 lang-width-tab-view">
+                <div class="region language-block">
+                    <div id="block-common-utils-mygov-login-block" class="block block-common-utils">
+                        <div class="content setting-option">
+                            <ul class="language-lists">
+                                <!-- <li class="lang-options" *ngFor="let lang of multiLang ; let i = index">
+                                    <a  (click)="switchToLanguage(i)">{{lang}}</a>
+                                </li> -->
+                                <li class="lang-options"><a class="english">ଓଡ଼ିଆ</a></li>
+                                <li class="lang-options"><a class="english">English</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 top-menu">
+                <div class="region region-header">
+                    <div id="block-common-utils-mygov-login-block" class="block block-common-utils">
+                        <div class="content setting-option">
+                            <ul class="lang-details">
+                                <li>
+                                    <a class="english" (click)="setFontSize(18)" title="Increase font size" href="javascript:void(0);"
+                                        role="link">A
+                                        <sup>+</sup>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="english" (click)="setFontSize(14)" title="Normal font size" href="javascript:void(0);"
+                                        role="link">A</a>
+                                </li>
+                                <li>
+                                    <a class="english" (click)="setFontSize(12)" title="Decrease font size" href="javascript:void(0);"
+                                        role="link">A
+                                        <sup>-</sup>
+                                    </a>
+                                </li>
+                              
+                                <!-- <li *ngIf="!!app.checkLoggedIn()">
+                                        <a class="english">Welcome &nbsp;<b class="logged-user">{{app.userName}}</b></a>
+                                    </li> -->
+                            </ul>
+
+                            <!-- <ul class="setting-menu-icon">
+                                    <li class="nav-item dropdown setting-icon" *ngIf="!!app.checkLoggedIn()">
+                                        <a class="dropdown-toggle setting-icon-link nav-link" data-toggle="dropdown" href="#">
+                                            <i class="fa">&#xf013;</i>
+                                        </a>
+                                        <div class="dropdown-menu setting-menu">
+                                            <div class="triangle-up-setting"></div>
+                                            <a class="login" title="Login" *ngIf="!!app.checkLoggedIn()" (click)="logout()">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                                            <a class="login" title="Login" *ngIf="!!app.checkLoggedIn()" routerLink="change-password">
+                                                <i class="fa fa-key" aria-hidden="true"></i>Change Password</a>
+                                        </div>
+                                    </li>
+                                </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end login section -->
+
+<!-- logo section start -->
+<div class="container-fluid logo-background">
+    <div class="row">
+        <div class="col-md-8 left-container">
+            <div class="row">
+                <div class="col-md-3 head-info">
+                    <ul>
+                        <li><a href="" target="_blank">
+                                <img title="" class="govt-logo" src="./assets/images/logos/logo.png" alt="gov-logo">
+
+                            </a></li>
+                        <li> <a href="" target="_blank">
+                                <img title="" class="sbm-logo" id="2ndimg" src="./assets/images/logos/sbm1.png" alt="sbm-logo">
+                            </a></li>
+                    </ul>
+                </div>
+                <div class="col-md-7 head-info heading-name">
+                    <h1 class="heading-title"> Swachha Odisha Sustha Odisha</h1>
+                    <h2>Swachh Bharat Mission (Gramin)</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 right-logo">
+            <div class="row">
+                <div class="col-md-8 right-sec">
+                    <h5 class="cm_name"> Shri Naveen Patnaik </h5>
+                    <h6 class="cm_designation"> Hon'ble Chief Minister, Odisha </h6>
+                </div>
+                <div class="col-md-4 right-cm-img">
+                    <img title="" class="cm-logo" src="./assets/images/logos/cm-odisha.png" alt="sbm">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end logo section -->
+
+<!-- menu section start -->
+<header id="header">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li [hidden]="!(menu.section=='MIS Login' ? !app.checkLoggedIn() ? menu.section : '': menu.section)"
+                            class="nav-item dropdown" id="{{'list' + i}}" *ngFor="let menu of staticService.menus; let i=index;">
+                            <a *ngIf="!menu.data.length" class="nav-link" [routerLink]="menu.url">{{menu.section}}</a>
+                            <a *ngIf="menu.data.length" class="nav-link dropdown-toggle" data-toggle="dropdown">{{menu.section}}</a>
+                            <div class="dropdown-menu arrow" *ngIf="menu.data.length">
+                                <div class="triangle-up"></div>
+                                <a class="dropdown-item" routerLink="{{submenu.url}}" *ngFor="let submenu of menu.data"
+                                    [hidden]="!(submenu.title=='User Guide' ? app.checkLoggedIn() ? submenu.title : '': submenu.title)">{{submenu.title}}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/dashboard/index-view'}" *ngIf="checkUserAuthorization(['STATE', 'NATIONAL', 'DISTRICT', 'ADMIN'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="dashboard/index-view">Dashboard</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/data-entry-selection'}" *ngIf="checkUserAuthorization(['DISTRICT'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="data-entry-selection">Data Entry</a>
+                        </li>
+                        <!-- <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/cms'}" *ngIf="checkUserAuthorization(['STATE', 'NATIONAL'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="cms">CMS</a>
+                        </li> -->
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/drafts'}" *ngIf="checkUserAuthorization(['DISTRICT'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="drafts">Drafts</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/user-management'}" *ngIf="checkUserAuthorization(['ADMIN'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="user-management">User Management</a>
+                        </li>
+                        <!-- <li class="nav-item dropdown" *ngIf="checkUserAuthorization(['STATE', 'NATIONAL', 'DISTRICT', 'ADMIN'])">
+                            <a class="nav-link" data-toggle="dropdown" routerLink="pages/report">Report</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<!-- /.navbar -->
+
+<!-- end menu section -->

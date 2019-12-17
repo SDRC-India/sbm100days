@@ -1,0 +1,167 @@
+<!-- header login section start -->
+<div class="container-fluid background">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4 lang-width-tab-view">
+                <div class="region language-block">
+                    <div id="block-common-utils-mygov-login-block" class="block block-common-utils">
+                        <div class="content setting-option">
+                            <!-- <ul class="language-lists">
+                                <li class="lang-options"><a class="english">ଓଡ଼ିଆ</a></li>
+                                <li class="lang-options"><a class="english">English</a></li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 top-menu">
+                <div class="region region-header">
+                    <div id="block-common-utils-mygov-login-block" class="block block-common-utils">
+                        <div class="content setting-option">
+                            <ul class="lang-details">
+                                <li>
+                                    <a class="english" (click)="setFontSize('plus')" title="Increase font size" href="javascript:void(0);"
+                                        role="link">A
+                                        <sup>+</sup>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="english" (click)="setFontSize('default')" title="Normal font size" href="javascript:void(0);"
+                                        role="link">A</a>
+                                </li>
+                                <li>
+                                    <a class="english" (click)="setFontSize('minus')" title="Decrease font size" href="javascript:void(0);"
+                                        role="link">A
+                                        <sup>-</sup>
+                                    </a>
+                                </li>
+                              
+                                <!-- <li *ngIf="!!app.checkLoggedIn()">
+                                        <a class="english">Welcome &nbsp;<b class="logged-user">{{app.userName}}</b></a>
+                                    </li> -->
+                            </ul>
+
+                            <!-- <ul class="setting-menu-icon">
+                                    <li class="nav-item dropdown setting-icon" *ngIf="!!app.checkLoggedIn()">
+                                        <a class="dropdown-toggle setting-icon-link nav-link" data-toggle="dropdown" href="#">
+                                            <i class="fa">&#xf013;</i>
+                                        </a>
+                                        <div class="dropdown-menu setting-menu">
+                                            <div class="triangle-up-setting"></div>
+                                            <a class="login" title="Login" *ngIf="!!app.checkLoggedIn()" (click)="logout()">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                                            <a class="login" title="Login" *ngIf="!!app.checkLoggedIn()" routerLink="change-password">
+                                                <i class="fa fa-key" aria-hidden="true"></i>Change Password</a>
+                                        </div>
+                                    </li>
+                                </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end login section -->
+
+<!-- logo section start -->
+<div class="container-fluid logo-background">
+    <div class="row">
+        <div class="col-md-8 left-container">
+            <div class="row">
+                <div class="col-md-3 head-info">
+                    <ul>
+                        <li><a href="http://www.odisha.gov.in/" target="_blank">
+                                <img title="" class="govt-logo" src="./assets/images/logos/logo.png" alt="gov-logo">
+
+                            </a></li>
+                        <li> <a>
+                                <img title="" class="sbm-logo" id="2ndimg" src="./assets/images/logos/sbm1.png" alt="sbm-logo">
+                            </a></li>
+                    </ul>
+                </div>
+                <div class="col-md-7 head-info heading-name">
+                    <h1 class="heading-title"> Swachha Odisha Sustha Odisha</h1>
+                    <h2>Swachh Bharat Mission (Gramin)</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 right-logo">
+            <div class="row">
+                <div class="col-md-8 right-sec">
+                    <h5 class="cm_name"> Shri Naveen Patnaik </h5>
+                    <h6 class="cm_designation"> Hon'ble Chief Minister, Odisha </h6>
+                </div>
+                <div class="col-md-4 right-cm-img">
+                    <img title="" class="cm-logo" src="./assets/images/logos/cm-odisha.png" alt="sbm">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end logo section -->
+
+<!-- menu section start -->
+<header id="header">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>                    
+                </button>
+                <ul class="navbar-nav ml-auto loginuser">
+                    <li  class=" dropdown " [hidden]="!app.checkLoggedIn()">
+                        <span class="welcome-name"> Welcome {{app.getUserDetails().user_name}}</span>
+                    </li>
+                </ul>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/'}">
+                            <a class="nav-link" mdbRippleRadius routerLink="">Home</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/about-us' || router.url=='/soso' || router.url=='/sustainable' || router.url=='/water-sanitation' || router.url=='/organisational-structure'}">
+                            <a class="nav-link" mdbRippleRadius routerLink="about-us">About Us</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/documents'}">
+                            <a class="nav-link" mdbRippleRadius routerLink="documents">Documents</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/report'}"  *ngIf="app.checkUserAuthorization(['report_HAVING_read'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="report">Report</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/dashboard/index-view'}">
+                            <!-- *ngIf="app.checkUserAuthorization()" -->
+                            <a class="nav-link" mdbRippleRadius routerLink="dashboard/index-view">Dashboard</a>
+                        </li>                         
+                        <li class="nav-item dropdown" *ngIf="app.checkUserAuthorization(['usermgmt_HAVING_write'])" [ngClass]="{'active': router.url=='/user-management' || router.url=='/reset-password' || router.url=='/edit-user'}">
+                            <!-- *ngIf="app.checkUserAuthorization()" -->
+                            <a class="nav-link" mdbRippleRadius routerLink="user-management">User Management</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/swachhagrahi'}"  *ngIf="app.checkUserAuthorization(['dataentry_HAVING_write'])">
+                            <a class="nav-link" mdbRippleRadius routerLink="swachhagrahi">Swachhagrahi</a>
+                        </li>
+                        <li class="nav-item dropdown" [ngClass]="{'active': router.url=='/login'}" *ngIf="!app.checkLoggedIn()">
+                                <a class="nav-link" mdbRippleRadius routerLink="login">Login</a>
+                        </li>
+                        <li class="nav-item dropdown" *ngIf="!!app.checkLoggedIn()">
+                            <a class="nav-link" mdbRippleRadius (click)="logout()">Logout</a>
+                    </li>                  
+                    </ul>
+                    <ul class="navbar-nav ml-auto welcomeuser">
+                        <li  class=" dropdown " [hidden]="!app.checkLoggedIn()">
+                            <span class="welcome-name"> Welcome {{app.getUserDetails().user_name}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<!-- /.navbar -->
+
+<!-- end menu section -->
+<div class="alert alert-primary text-center" *ngIf="app.logoutSuccess">
+    <strong>Successfully logged out!</strong>
+  </div>

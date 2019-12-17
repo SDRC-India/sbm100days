@@ -1,0 +1,99 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.clsContent{
+    font-size: 16px;
+}
+ .mat-form-field{
+    width: 100%;
+}
+ .mat-form-field-infix{
+    border-top: 1px solid #999;
+    border: 1px solid #999;
+    border-bottom: none;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+}
+ .mat-pseudo-checkbox-checked:after {
+    width: 10px !important;
+    height: 5px !important;
+}
+
+ .mat-form-field {
+    display: block;
+}
+ .mandatory{color:red;}
+
+ .mat-form-field-suffix{
+    height: 33px;
+    padding-top: 5px;
+    border: 1px solid #adadad;
+}
+.btn-margin{
+    margin-left: 15px;
+}
+.paddingtop{padding-top:5px;}
+.padding-mintop{padding-top:5px;}
+.margin-bottom{margin-bottom: 6px;}
+.margin-mintop{margin-top:7px;}
+.formpadding{padding-top:10px;}
+mat-checkbox#mat-checkbox-1 {
+    padding-right: 15px;
+}
+mat-radio-button#mat-radio-2 {
+    padding-right: 10px;
+}
+mat-checkbox#mat-checkbox-2 {
+    padding-right: 15px;
+   
+}
+.errormssgeront{font-size: 80%;}
+.lineheight{line-height: 5%}
+#table-fixed-containertab1 #tab1 thead, .btn-pdf, .btn-excel, #header-fixedtab1 thead {
+    background-color: #234a7c !important;
+}
+.mt-btn{
+    margin-top: 28px !important;
+}
+// .header-fixed{
+//     margin-right: 0 !important;
+// }
+// #tab1 tbody tr:last-child td {
+//     font-weight: bold;
+// }
+.black-overlay{
+    position: fixed !important;
+
+}
+.mob-left-list{
+    background: #1f497b;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+    width: 75px;
+    display: none;
+    position: fixed;
+    left: 0px;
+    z-index: 3;
+    margin-top: 15px;
+  }
+.mat-form-field-disabled .mat-form-field-infix {
+    border-top-style: dotted;
+    border-left-style: dotted;
+    border-right-style: dotted;
+}
+.nospinner [type='number'] {
+    -moz-appearance:textfield;
+}  
+.nospinner::-webkit-outer-spin-button,
+.nospinner::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+    margin: 0;
+}  
+
+@media(max-width: 767px){
+    .table-btn .btn-excel, .table-btn .btn-pdf{
+        font-size: 14px !important;
+        padding: 9px
+    }
+}

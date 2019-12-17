@@ -1,0 +1,45 @@
+.content-header {
+    margin-top: 20px;
+    border-bottom: 1px solid #1f4a7c;
+}
+.content-header h3{
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f4a7c;
+}
+.sdg{
+    margin-top: 17px;
+    margin-bottom: 20px;
+}
+.sdg h5{
+    font-size: 20px;
+    color: #1f4a7c;
+}
+.sdg p{
+    text-align: justify;
+}
+.vision{
+    font-style: italic;
+    font-weight: bold;
+}
+table.table.table-striped {
+    border: 1px solid #ddd;
+}
+thead {
+    background-color: #777;
+}
+.table th {
+    padding: 5px !important;
+}
+.table td{
+    font-size: 16px; 
+}
+th {
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+}
+.width-col-one, .width-col-two{
+    width: 50%;
+}

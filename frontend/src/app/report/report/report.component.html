@@ -1,0 +1,103 @@
+<div class="container-fluid">
+    <div class="content-header">
+        <h3>Report</h3>
+    </div>
+    <div class="row">     
+        <div *ngIf="tableData && tableData.length" class="report-pdf-btn">
+          <button class="btn btn-pdf btn-submit" (click)="downloadConsolidatedAsPdf($event)"><span><i class="fa fa-file-pdf-o" style="font-size:15px;"
+          aria-hidden="true"></i></span>&nbsp;Download Consolidated PDF</button>
+        </div>              
+        <div class="col-md-6 offset-md-3 consolidate-up">
+            <div class="row selection-sec">       
+                <div class="col-md-6">
+                  <label for="usr">Report Type<span style="color:red; font-weight:500;">*</span> :</label>
+                    <mat-form-field>
+                    <mat-select name="reportType" [(ngModel)]="selectedFrequencyTypeId" (valueChange)="this.tableData = undefined; selectedReportTypeId=undefined; areaDetails.District.length > 1 ?selectedDistrictId=undefined:'';areaDetails.Block.length>1 ? selectedBlockId=undefined:'';">
+                        <mat-option *ngFor="let opt of reportService.allTypes" [value]="opt.typeDetailId">
+                        {{opt.typeDetailName}}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label for="usr">Parameters<span style="color:red; font-weight:500;">*</span> :</label>
+                    <mat-form-field>
+                        <mat-select name="reportType" [(ngModel)]="selectedReportTypeId" (valueChange)="this.tableData = undefined; areaDetails.District.length > 1 ?selectedDistrictId=undefined:'';areaDetails.Block.length>1 ? selectedBlockId=undefined:'';">
+                            <mat-option *ngFor="let opt of reportService.reportTypes | frequencyFilter:selectedFrequencyTypeId" [value]="opt.typeDetailId">
+                                {{opt.typeDetailName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-6">
+                    <label for="usr">State:</label>
+                    <mat-form-field>
+                        <mat-select name="state" [(ngModel)]="selectedStateId" (valueChange)="selectedDistrictId = undefined; selectedBlockId=undefined">
+                            <mat-option *ngFor="let opt of areaDetails | areaFilter:1:1" [value]="opt.areaId">
+                                {{opt.areaName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+                <div class="col-md-6" *ngIf="areaDetails && areaDetails.District && selectedReportTypeId != 6  && selectedReportTypeId != 13 && selectedStateId != -2">
+                    <label for="usr">District<span style="color:red; font-weight:500;">*</span> :</label>
+                    <mat-form-field>
+                        <mat-select name="district" [(ngModel)]="selectedDistrictId" (valueChange)="areaDetails.Block.length>1 ? selectedBlockId=undefined:''; this.tableData = undefined">
+                            <mat-option [value]="-2" *ngIf="(areaDetails | areaFilter:2:18).length > 1 && (selectedReportTypeId != 12)" >All Districts</mat-option>
+                            <mat-option [value]="-3" *ngIf="(areaDetails | areaFilter:2:18).length > 1 && (selectedReportTypeId != 12) && (selectedReportTypeId != 14)" > All Blocks</mat-option>
+                            <mat-option [value]="-4" *ngIf="(areaDetails | areaFilter:2:18).length > 1 && (selectedReportTypeId != 7 && selectedReportTypeId != 8) && (selectedReportTypeId != 14)" > All Gram Panchayats</mat-option>
+                            <mat-option *ngFor="let opt of areaDetails | areaFilter:2:18" [value]="opt.sbmAreaId">
+                                {{opt.areaName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="areaDetails && areaDetails.Block && selectedReportTypeId != 6 && selectedReportTypeId != 13 && selectedReportTypeId != 13 && selectedDistrictId != -2 && selectedDistrictId != -3 && selectedDistrictId != -4">
+                    <label for="usr">Block<span style="color:red; font-weight:500;">*</span> :</label>
+                    <mat-form-field>
+                        <mat-select name="block" [(ngModel)]="selectedBlockId" (valueChange)="this.tableData = undefined">
+                            <mat-option [value]="-2" *ngIf="(areaDetails | areaFilter:3:selectedDistrictId).length > 1 && (selectedReportTypeId != 12)" >All Blocks</mat-option>
+                            <mat-option [value]="-3" *ngIf="(areaDetails | areaFilter:3:selectedDistrictId).length > 1 && (selectedReportTypeId != 7 && selectedReportTypeId != 8) && (selectedReportTypeId != 14)" >All Gram Panchayats</mat-option>
+                            <mat-option *ngFor="let opt of areaDetails | areaFilter:3:selectedDistrictId:selectedReportTypeId:designationIds" [value]="opt.sbmAreaId">
+                                {{opt.areaName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="selectedReportTypeId != 6 && selectedReportTypeId != 13 && selectedDistrictId && selectedDistrictId == -2 || selectedDistrictId == -3 || selectedDistrictId == -4 ? 'col-md-6 text-left mt-btn':'col-md-12 text-center' ">
+                    <button         
+                    [disabled]="selectedReportTypeId != 6 && selectedReportTypeId != 13 && (!selectedReportTypeId || (!selectedDistrictId && areaDetails.District) || (selectedDistrictId != -2 && !selectedBlockId ) && (selectedDistrictId != -3 && !selectedBlockId ) && (selectedDistrictId != -4 && !selectedBlockId ))"
+                     mat-raised-button class="btn-primary btn report-submit" (click)="selectedReportTypeId != 6 ? getTable(selectedReportTypeId):downloadDailyTracker()">Submit</button>
+                </div>
+            </div>          
+        </div>       
+        
+        <div class="col-md-12 table-section" *ngIf="tableData && tableData.length">     
+            <div class="" *ngIf="(selectedReportTypeId == 4  || selectedReportTypeId == 7 || selectedReportTypeId == 8 || selectedReportTypeId == 9) && selectedDistrictId != -2">
+                <div class="rangeFilter">
+                  <form class="all-fields" #f="ngForm">
+                    <div class="frmfilter">
+                     <label for="usr">From:</label>&nbsp;
+                      <mat-form-field  style="width:100px;">
+                       <input matInput class="nospinner"  appRangeValidator="fromFilter" [(ngModel)]="reportService.firstFilterRange" name='fromFilter' id='fromFilter' required>
+                      </mat-form-field>                                    
+                    </div>
+                    <div class="frmfilter" style="margin-left: 30px;">
+                     <label for="usr">To:</label>&nbsp;
+                      <mat-form-field  style="width:100px;">
+                         <input matInput class="nospinner"  appRangeValidator="toFilter" [(ngModel)]="reportService.secondFilterRange" name='toFilter' id='toFilter' required>
+                      </mat-form-field>
+                    </div>
+                  </form> 
+                </div>
+            </div> 
+            <sdrc-table [id]="'tab1'" [rowData]="tableData | rangeFilter : reportService.firstFilterRange : reportService.secondFilterRange : filterColumn" [columnData]="tableColumns | removeArray : 'CssClass'"
+                [maxTableHeight]="'500px'" [headerFixed]="true" [sorting]="true" [searchBox]="true" [downloadExcel]="true"
+                [excelName]="excelName" [downloadPdfByServer]="true" [excelHeadings]="excelHeadings" [isThreeDimension]="true" [threeDColumnData]="tableColumnIndex" [isTotalAvailable]="selectedReportTypeId!=12 && selectedReportTypeId!=13" [removeTotal]="reportService.secondFilterRange || selectedReportTypeId==12 ||selectedReportTypeId==13"
+                (onDownloadPdfByServerClicked)="downloadTableAsPdf($event)">
+            </sdrc-table>            
+            <!-- <div  *ngIf="(tableData | rangeFilter : reportService.firstFilterRange : reportService.secondFilterRange : filterColumn).length==0" class="col-md-12 text-center filter-range">No Data Found.</div> -->
+        </div>
+        <div  *ngIf="filteredTableData" class="col-md-12 text-center filter-range" style="margin-top: 0px !important;">No Data Found.</div>
+    </div>
+</div>

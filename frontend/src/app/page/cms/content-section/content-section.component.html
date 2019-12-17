@@ -1,0 +1,441 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 side-menu">
+      <app-left-side-bar></app-left-side-bar>
+    </div>
+
+    <div class="col-md-9" *ngIf="dataService.showNoCmsData">
+      <h2 class="title-main">Content Management System</h2>
+      <div class="row cms-landing-border">
+        <div class="col-md-6 cms-land-page activities-area ">
+          <div class="col-md-12 cms-short-description">This page enables the user to manage, edit and delete the content to be displayed in the portal under various options.
+          </div>
+          <div class="col-md-12 short-description-block">
+            <h3 class="recent-activity-block last-updated-blog">Last Updated On</h3>
+            <p class="last-updated-time time-stamp">Oct 7th 2018, 5:40 pm</p>
+            <div class="row last-updated-section">
+              <h3 class="download-pdf-text">
+                <i class="fa fa-file-pdf-o time-stamp"></i>
+                <a class="title-pdf-info">
+                  User Manual
+                </a>
+              </h3>
+              <p class="time-stamp">
+                <img class="preview-icon" title="Preview file before download" src="./assets/icons/eye-solid.svg">
+                <a class="preview-hover" title="Preview file before download">
+                  Preview
+                </a>
+                <a>
+                  <span class="pdf-icon-border">
+                    <a title="Download PDF">
+                      <i class="fa fa-download downloaded-icon" aria-hidden="true"></i> &nbsp;
+                    </a>
+                  </span>
+                  <span class="download-file">Download</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 cms-land-page ">
+          <h3 class="recent-activity-block landing-page-block-border">Recent Activities</h3>
+          <ul class="last-updated-page">
+            <li>About Scheme
+              <p class="last-updated-time">Last Updated On Oct 7th 2018, 5:40 pm By xyz</p>
+            </li>
+            <li>Best Practices &nbsp;&nbsp;
+              <p class="last-updated-time">Last Updated On Oct 6th 2018, 11:40 am By xyz</p>
+            </li>
+            <li>Sanction Orders &nbsp;&nbsp;
+              <p class="last-updated-time">Last Updated On Oct 4th 2018, 3:40 pm By xyz</p>
+            </li>
+            <li>Guidelines &nbsp;&nbsp;
+              <p class="last-updated-time">Last Updated On Oct 1st 2018, 6:40 pm By xyz</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9" *ngIf="dataService.showList" [hidden]="dataService.selectedTabMenuUrl == 'underconstruction'">
+      <div class="row" *ngIf="dataService.selectedTabMenu">
+        <h2 class="title-main">{{dataService.selectedTabMenu.title}}</h2>
+      </div>
+      <div class="row cms-section">
+        <div class="col-md-12">
+          <form class="cmsform">
+            <div *ngFor="let field of dataService.selectedMenuLists.listOfQuestionModel; let i = index;" [ngClass]="{'form-group':field.controlType == 'textbox'}"
+              class="row">
+              <!-- <div class="col-md-12"style="color: #31859c; font-size: 18px; margin-bottom: 20px;">{{field.keyHeading}}</div>  -->
+              <label [attr.for]="field.columnName" class="col-md-2" *ngIf="field.controlType != 'table' && field.controlType != 'button'">{{field.label}}&nbsp;:</label>
+              <div [ngSwitch]="field.controlType" class="input-holder type-center" [ngClass]="field.controlType != 'table'? 'col-md-9': 'col-md-11'">
+                <input *ngSwitchCase="'textbox'" maxlength="field.validation.maxLength" [placeholder]="field.section" name="{{field.columnName}}" [ngClass]="{
+                  'col-md-10': dataService.showAddOption 
+                }" id="modelValue" (change)="newValue(); field.type == 'file' ? onFileChange($event): ''" [id]="field.columnName"
+                  [type]="field.type" [(ngModel)]="field.value" class="form-control" [ngClass]="{'no-spinners':field.type == 'number'}">
+                <span id="selectedRowDataInField"></span>
+                <!-- input type text area -->
+                <span *ngSwitchCase="'textarea'">
+                  <textarea id="contentVal" title="{{dataService.fetchedDropdownDetails[0].content}}" *ngIf="field.label == 'Content'" class="textarea-field"
+                    name="{{field.columnName}}" rows="4" cols="50">{{dataService.fetchedDropdownDetails[0].content}}</textarea>
+                </span>
+
+                <p *ngSwitchCase="'textarea'" class="cms-page-description-block" [hidden]="field.label == 'Content'">
+                  <textarea *ngIf="field.label == 'Page Description'" class="description-text-input" type="text" (blur)="editingPageDescription()"
+                    name="{{field.value}}" id="editCmsPageDescription" [(ngModel)]="field.value" [attr.style]="" [attr.disabled]="dataService.ifEditingDescription"> </textarea>
+                  <span *ngIf="field.label == 'Page Description'" class="short-description-field">
+                    <i class="fa fa-pencil" aria-hidden="true" (click)="editPageDescription()"></i>
+                  </span>
+                </p>
+
+                <!-- calender -->
+                <my-date-picker *ngSwitchCase="'calendar'" [selDate]="selDate" name="{{field.columnName}}" [options]="myDatePickerOptions"
+                  [(ngModel)]="field.value" required [placeholder]="field.section" class="rawReportCalnder" (dateChanged)="onDateChanged($event)"></my-date-picker>
+
+                <!-- Submit button for type order -->
+                <div *ngIf="field.label == 'Add' && dataService.showAddOption" [ngClass]="{
+                  'add-btn': 'field.label == Timeperiod || field.label == Document Type'
+                }">
+                  <button *ngSwitchCase="'button'" [ngClass]="{
+                    'add-order-btn': 'field.label == Timeperiod || field.label == Document Type'
+                  }" class="btn btn-default proceed-btn cms-submit-btn" [value]="field.label" [type]="field.type" (click)="addNewSections()">{{field.label}}</button>
+                </div>
+                <div *ngIf="field.label != 'Add' && field.label != 'Cancel' && field.label !='Preview'">
+                  <button *ngSwitchCase="'button'" [ngClass]="{
+                    'cms-submit-btn-in-row' : 'field.label == Publish'
+                  }" class="btn btn-default proceed-btn cms-submit-btn" [value]="field.label" [type]="field.type" (click)="submitForm()">{{field.label}}</button>
+                </div>
+                <div *ngIf="field.label != 'Add' && field.label != 'Cancel' && field.label !='Publish'">
+                  <button *ngSwitchCase="'button'" [ngClass]="{
+                      'cms-submit-btn-in-row' : 'field.label == Preview'
+                    }" class="btn btn-default proceed-btn cms-submit-btn" [value]="field.label" [type]="field.type" (click)="previewData()">{{field.label}}</button>
+                </div>
+                <div *ngIf="field.label != 'Add' && field.label == 'Cancel' ">
+                  <button *ngSwitchCase="'button'" [ngClass]="{
+                    'cms-cancel-btn-in-row' : 'field.label == Cancel'
+                  }" class="btn btn-default proceed-btn cms-submit-btn" [value]="field.label" [type]="field.type" (click)="cancelOrders()">{{field.label}}</button>
+                </div>
+                <!-- Input dropdown-->
+                <div class="btn-group" style="padding-left: 3px;
+                width: 100%;margin-bottom: 1rem" dropdown *ngSwitchCase="'dropdown'">
+                  <input type="text" class="dropdown-input" [id]="field.columnName" style="padding: 10px;" readonly [placeholder]="''" [(ngModel)]="field.value"
+                    name="{{field.columnName}}">
+                  <button type="button" style="padding: 0" dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    class="btn btn-default dropdown-toggle dropdown-toggle-split px-3 waves-light select-dropdown" mdbRippleRadius></button>
+                  <div class="dropdown-menu drp-list cms-dropdown-lists">
+                    <a class="dropdown-item" style="font-size: 13px;" *ngFor="let opt of dataService.fetchedDropdown" (click)="selectDropdown(opt, i)">{{opt.section}}</a>
+                  </div>
+                </div>
+
+                <!-- tabular view -->
+
+                <div *ngSwitchCase="'table'" class="table-container table-responsive">
+                  <table class="cms-table-fetched" *ngIf="!field.dependecy">
+                    <thead>
+                      <tr class="cms-table-header">
+                        <th class="cms-table-column" *ngFor="let col of dataService.getKeys(dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data[0]) | 
+                          removeTableColum: dataService.removeColumnList ; let i=index">{{col}}</th>
+                        <th class="cms-table-column">Action</th>
+                      </tr>
+                    </thead>
+                    <!-- // table of type orders,letters,documents & gallery -->
+                    <tbody *ngIf="field.dependentCondition[0] == 'hasChildren'" [hidden]="dataService.withChildren">
+                      <tr *ngFor="let row of dataService.fetchedDropdown | removeTableColum: dataService.removeColumnList | paginate: { itemsPerPage: 6, currentPage: dataService.q, id: 'first' } ; let j=index;">
+                        <td class="overflow-ellipsis"> {{row.section}}
+                        </td>
+                        <td>
+                          <button (click)="editRowOfTimeperiod(row.section,((dataService.q-1)*6)+j)" class="edit-btn" title="Edit">
+                            <i class="fa fa-edit action-icons" style="font-size:18px"></i>
+                          </button>
+                          <button class="delete-btn" title="Delete" (click)="deleteRowOfTimePeriod(((dataService.q-1)*6)+j)">
+                            <i class="fa fa-trash-o action-icons" style="font-size:18px"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- end table of type orders,letters,documents & gallery  -->
+                    <!-- table of type other -->
+                    <tbody *ngIf="field.dependentCondition[0] != 'hasChildren'" [hidden]="dataService.noChildren">
+                      <tr *ngFor="let row of dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data | removeTableColum: dataService.removeColumnList | paginate: { itemsPerPage: 6, currentPage: dataService.m, id: 'second' }; let a = index;">
+                        <td class="overflow-ellipsis" *ngFor="let col of dataService.getKeys(dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data[0]) |
+                         removeTableColum: dataService.removeColumnList; let k=index" title="{{row[col]}}" [innerHTML]="row[col] | safeHtml">
+                        </td>
+                        <td>
+                          <button (click)="editRowTableData(row,((dataService.m-1)*6)+a)" class="edit-btn" title="Edit">
+                            <i class="fa fa-edit action-icons" style="font-size:18px"></i>
+                          </button>
+                          <button class="delete-btn" title="Delete" (click)="deleteRowTableData(row,((dataService.m-1)*6)+a)">
+                            <i class="fa fa-trash-o action-icons" style="font-size:18px"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- end of table other type -->
+                  </table>
+                  <pagination-controls class="pagination" id="first" (pageChange)="dataService.q = $event" *ngIf="dataService.fetchedDropdown.length > 6 && !field.dependecy && field.dependentCondition[0] == 'hasChildren'"></pagination-controls>
+                  <pagination-controls class="pagination first-pagination" id="second" (pageChange)="dataService.m = $event" *ngIf="dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data.length > 6 && !field.dependecy && field.dependentCondition[0] != 'hasChildren'"></pagination-controls>
+                </div>
+
+
+                <div *ngSwitchCase="'table'" class="table-responsive selectedrowData" [hidden]="dataService.tableData.length == 0">
+                  <!-- <div class="separator" *ngIf="!field.dependecy"></div> -->
+                  <p class="text-center selectedTableInfo" *ngIf="!field.dependecy">{{dataService.selectedRow}}</p>
+                  <span id="selectedRowDataInTable"></span>
+                  <table class="cms-table-fetched" id="hideTableIfNoData" *ngIf="field.dependecy">
+                    <thead>
+                      <tr class="cms-table-header">
+                        <th class="cms-table-column" *ngFor="let col of dataService.getKeys(dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data[0]) | 
+                        removeTableColum: ['fileName', 'createdDate', 'isLive', 'size','imageName','order','flag','isNew','caption','content'] ; let i=index">{{col}}</th>
+                        <th class="cms-table-column">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of dataService.tableData | paginate: { itemsPerPage: 6, currentPage: dataService.a, id: 'third' } ; let j=index">
+                        <td class="overflow-ellipsis" [hidden]="col == 'url'" *ngFor="let col of dataService.getKeys(dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data[0]) |
+                         removeTableColum: ['fileName', 'createdDate', 'isLive', 'size','imageName','order','flag','isNew','caption','content']; let k=index"
+                          title="{{row[col]}}" [innerHTML]="row[col] | safeHtml">
+                        </td>
+                        <td class="overflow-ellipsis" [hidden]="col != 'url'" *ngFor="let col of dataService.getKeys(dataService.selectedMenuLists.listOfCmsDataDto[0].viewContent[staticHomeService.selectedLang][0].data[0]) |
+                         removeTableColum: ['fileName', 'createdDate', 'isLive', 'size']">
+                          <img class="cms-photo-categories" src="{{row[col]}}" />
+                        </td>
+                        <td>
+                          <button class="edit-btn" title="Edit" (click)="editRowOfFetchedData(row,((dataService.a-1)*6)+j)">
+                            <i class="fa fa-edit action-icons" style="font-size:18px"></i>
+                          </button>
+                          <button class="delete-btn" title="Delete" (click)="deleteRowOfFetchedData(((dataService.a-1)*6)+j)">
+                            <i class="fa fa-trash-o action-icons" style="font-size:18px"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="" [ngClass]="[!field.errorFound ? 'd-none':'']" style="color: red;
+                    margin-top: -12PX; padding-left: 5px;">{{field.errorMessage}}</div>
+              </div>
+              <p *ngIf="field.label ==  'Upload File'" [hidden]="field.dependecy" class="fetched-file" title="Download File" (click)="downloadFetchedFileCms(dataService.uploadedFilepath)">{{dataService.uploadedFile}}</p>
+              <p *ngIf="field.label ==  'Upload File'" [hidden]="!field.dependecy" class="fetched-file" title="Download File" (click)="downloadFetchedFileCms(dataService.uploadedFilepath)">{{dataService.uploadedFile}}</p>
+              <p *ngIf="field.label ==  'Upload Image'" [hidden]="field.dependecy" class="fetched-file" title="Download File" (click)="downloadFetchedFileCms(dataService.imageUploadedFile)">{{dataService.imageUploadedFile}}</p>
+
+            </div>
+            <div class="form-group row">
+              <div class="col-md-12 text-center">
+              </div>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <pagination-controls id="third" class="pagination" (pageChange)="dataService.a = $event" *ngIf="dataService.tableData.length > 6 && !dataService.selectedMenuLists.listOfQuestionModel.dependecy"></pagination-controls>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="dataService.noDataFound">
+              <h4 class="text-center no-data-found">No Data Found</h4>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class=" blank-height">
+    </div>
+  </div>
+  <div class="blank-height">
+  </div>
+  <div class=" blank-height">
+  </div>
+</div>
+<!-- modal for deleting row data -->
+<div id="confirmRejectModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="infohead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; INFO</div>
+        <div class="warnbody">{{warningMsg}}</div>
+        <button type="button" class="btn errorOk" data-dismiss="modal" (click)="deleteSelectedRowData()">Yes</button>
+        <button type="button" class="btn errorOk" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
+
+<div id="confirmDeleteModal" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="infohead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; INFO</div>
+        <div class="warnbody">{{warningMsg}}</div>
+        <button type="button" class="btn errorOk" data-dismiss="modal" (click)="deleteSelectedRowDataOfSection()">Yes</button>
+        <button type="button" class="btn errorOk" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="pop" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data submitted successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="refreshEditedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="withPreviewSubmission" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data submitted successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="showFetchedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="deleteRow" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data deleted successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="refreshEditedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="deleteRowSection" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data deleted successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="refreshDeletedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="deleteRowSection" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data deleted successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="refreshEditedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="addNewSection" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Data added successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal" (click)="refreshAddedData()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="pageDescriptionSuccess" class="confrirmation-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
+  tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="successhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; SUCCESS</div>
+        <div class="successbody">Page description saved successfully !</div>
+        <button type="button" class="btn" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="error" class="error-modal modal fade" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="errorhead">
+          <img alt="" src="./assets/images/Messages_success_icon.svg" style="width: 25px;margin-top: -5px;">&nbsp; ERROR</div>
+        <div class="successbody">Some error found !</div>
+        <button type="button" class="btn" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="dataService.selectedTabMenuUrl == 'aboutus'" id="previewPage" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <!-- dialog -->
+  <div class="modal-dialog previewPortalPage">
+    <!-- content -->
+    <div class="modal-content">
+      <!-- header -->
+      <div class="modal-header cms-header-info">
+        <h1 id="header-info-of-preview" class="modal-title">
+          {{this.dataService.headingTitle}}
+        </h1>
+      </div>
+      <!-- header -->
+      <!-- body -->
+      <div class="modal-body content-body">
+        <div class="row">
+          <p class="about-us-content">
+            <img class="about-us-image" src="{{dataService.imageUploadedFilepath}}" align="left">
+            <span [innerHTML]="this.dataService.contentVal"></span>
+          </p>
+        </div>
+        <div class="row">
+          <h3 class="download-pdf-text">
+            <i class="fa fa-file-pdf-o"></i>
+            <a class="title-pdf-info">
+              {{dataService.aboutSchemeFileTitle}}
+            </a>
+            <img class="preview-icon" title="Preview file before download" src="./assets/icons/eye-solid.svg">
+            <a class="preview-hover" title="Preview file before download">
+              Preview
+            </a>
+            <a>
+              <span class="pdf-icon-border">
+                <a title="Download PDF">
+                  <i class="fa fa-download downloaded-icon" aria-hidden="true"></i> &nbsp;
+                </a>
+              </span>
+              <span class="download-file">Download</span>
+              <span class="text-center file-not-available" [hidden]="dataService.aboutSchemeFileTitle != ''">File not available</span>
+            </a>
+          </h3>
+        </div>
+      </div>
+      <!-- body -->
+      <!-- footer -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary preview-publish-btn" (click)="publishDataOfPreviewpage()" data-dismiss="modal"> Publish</button>
+        <button class="btn btn-secondary preview-publish-btn"  data-dismiss="modal"> Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

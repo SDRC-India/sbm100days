@@ -1,0 +1,154 @@
+
+<!-- <div *ngIf="appService.logoutSuccess" style="border: 1px solid #549054; background: #ddd; text-align: center;">
+    Successfully logged out.
+</div> -->
+
+<div id="demo" class="carousel slide" data-ride="carousel">
+
+    <!-- The slideshow -->
+    <div class="carousel-inner">
+        <!-- <div class="carousel-item active">
+            <img src="assets/images/banners/Banner-1.jpg" alt="SOSO">
+        </div> -->
+        <div class="carousel-item active">
+            <img src="assets/images/banners/Banner-2.jpg" alt="SOSO">
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/banners/Banner-3.jpg" alt="SOSO">
+        </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+</div>
+
+
+<div class="container-fluid about-content clsContent">
+    <div class="row about-speech">
+        <div class="col-md-12 cm-speech">
+            <h2>Rural Sanitation in Odisha</h2>
+            <p>The Swachha Bharat Mission was launched on 2nd October, 2014 with the objective to 
+                accelerated the efforts to achieve universal sanitation coverage and to put focus on 
+                sanitation and thereby achieve a Swachh Bharat by 2019, as a fitting tribute to Mahatma 
+                Gandhi on his 150th birth anniversary. Since April 2017, the SBM(Gramin) is being 
+                implemented in the state of Odisha under the aegis of the <a href="https://odishapanchayat.gov.in/" target="_blank">Department of Panchayati Raj 
+                and Drinking Water, Govt of Odisha.</a> The program is integral part of the Swachha Odisha 
+                Sustha Odisha (SOSO) initiative by Government of Odisha which is a holistic approach to 
+                ensure availability and sustainable management of water and sanitation for all in lines 
+                with the Sustainable Development Goals - 6 of the United Nations.</p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container social-panel background-highlight">
+    <div class="row social-content">
+        <div class="col-md-4 ">
+            <div class="social-box">
+                <div class="flip-box">
+                    <div class="flip-box-inner">
+                        <div class="flip-box-front">
+                            <img class="img-responsive" alt="soso" src=".\assets\images\gallery\box-1.jpg">
+                        </div>
+                        <div class="flip-box-back">
+                            <div class="flip-border">
+                                <h2>SOSO </h2>
+                                <p class="flip-para1">On 25th August 2018, the Hon’ble Chief Minister of Odisha gave the clarion call of Swachha Odisha Sustha Odisha (SOSO). SOSO is a holistic approach to ensure availability and sustainable management of water and sanitation for all in lines with the Sustainable Development Goals - 6 of the United Nations.
+                                    <br><br>The aim of Swachha Odisha Sustha Odisha is to improve the standard of living of the people of rural Odisha and to ensure that all villages in Odisha are clean and green villages. 
+                                <br><br>
+                                <a routerLink="/soso" >Read more</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="social-box">
+                <div class="flip-box">
+                    <div class="flip-box-inner">
+                        <div class="flip-box-front">
+                            <img class="img-responsive" alt="sbm" src=".\assets\images\gallery\box-2.jpg">
+                        </div>
+                        <div class="flip-box-back">
+                            <div class="flip-border">
+                                <h2>SBM(G)</h2>
+                                <p class="flip-para1">To accelerate the efforts to achieve universal sanitation coverage and to put focus on sanitation, the Hon'ble Prime Minister of India, Shri Narendra Modi, launched the Swachh Bharat Mission on 2nd October, 2014. The Mission aims to achieve a Swachh Bharat by 2019, as a fitting tribute to Mahatma Gandhi on his 150th birth anniversary. In Rural India this would mean making villages Open-Defecation Free (ODF), improving the levels of cleanliness through Solid and Liquid Waste Management activities, and ensuring clean and sanitized villages.
+                                    <br><br>
+                                    <a routerLink="/about-us">Read more</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="col-md-12 social-box">
+                <div class="row social-heading">
+                    <h4 class="infocus-block-title">Social </h4>
+                    <a href="" id="tw-button" class="socialpnl"><i class="fa fa-twitter" aria-hidden="true"></i>
+                        twitter</a>
+                </div>
+                <div class="col-md-12 twittwer-post">
+                    <a class="twitter-timeline" data-height="300" href="https://twitter.com/sbmodisha?ref_src=twsrc%5Etfw">Tweets
+                        by sbmodisha</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid ">
+    <div class="row quick-stats">
+        <div class="col-md-3 col-sm-6 col-12 circle">
+            <div class="quick-start-in">
+                <div class="quick-rnd" >
+                    <img class="rnd" src="assets/images/gallery/rnd-1.jpg">
+                </div>
+                <span class="count">{{staticService.quickVal.coverage}}</span><span class="percent"> %</span>
+                <br>
+                <span class="sub-title">Coverage</span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12 circle">
+            <div class="quick-start-in">
+                <div class="quick-rnd">
+                    <img class="rnd" src="assets/images/gallery/rnd-2.jpg">
+                </div>
+                <span class="count">{{staticService.quickVal.geoTagging}}</span><span class="percent"> %</span>
+                <br>
+                <span class="sub-title">Geo Tagging</span>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-12 circle">
+            <div class="quick-start-in">
+                <div class="quick-rnd">
+                    <img class="rnd" src="assets/images/gallery/rnd-3.jpg">
+                </div>
+                <span class="count">{{staticService.quickVal.odfDeclaredVillage}}</span>
+                <br>
+                <span class="sub-title">ODF Declared Village</span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12 circle">
+            <div class="quick-start-in">
+                <div class="quick-rnd">
+                    <img class="rnd" src="assets/images/gallery/rnd-4.jpg">
+                </div>
+                <span class="count"> {{staticService.quickVal.noOfSwachhagrahi}} </span>
+                <br>
+                <span class="sub-title">No. of Swachhagrahi </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<mat-card id="card">
+        <div class="col-md-12 download">
+                <div class="download-btn">
+                <i class="material-icons back-arrow save-button" (click)="htmltoPDF()" id = "pointer"> description </i>
+                </div>
+                <span class="download-text">Download</span> 
+            </div>
+
+        <mat-card-title><h4>{{selectedSection.sectionOrder}}. {{sectionName}}</h4></mat-card-title>
+        <mat-card-content>
+
+            <sdrc-form [numberOfColumn]="1" [questionArray]="formSections" (onSubmit)="saveForm(formSections)" #sdrcForm></sdrc-form>
+        </mat-card-content>  
+        <button mat-raised-button  color="primary"
+        class="btn btn-default login-submit" (click)="finalizeClicked()">Submit</button>  
+</mat-card>
+

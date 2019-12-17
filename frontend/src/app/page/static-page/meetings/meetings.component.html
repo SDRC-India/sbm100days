@@ -1,0 +1,58 @@
+<app-breadcrumb-pagination></app-breadcrumb-pagination>
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="title-main">Meetings</h2>
+      </div>
+      <!-- <div class="col-md-12 short-description margin-left-description">{{SanctionData.viewType}}</div>  -->
+      <div class="col-12 hidden-sm-up">
+        <div class="btn-group">
+          <button class="btn btn-color" type="button" data-toggle="dropdown">
+            <span *ngIf=" showDTF == true">DTF Meetings</span>
+            <span *ngIf=" showBTF == true">BTF Meetings</span>
+            <i class="fa fa-caret-down fa-caret fa-lg"></i>
+          </button>
+          <div class="dropdown-menu mobile-display">
+            <li class="sanction-head-list first-list"  [ngClass]="{'active': showDTF == true}" >
+              <a (click)="showDTFKeyContacts()" class="active">DTF Meetings</a>
+            </li>
+            <li class="sanction-head-list first-list"  [ngClass]="{'active': showBTF == true}" >
+              <a (click)="showBTFKeyContacts()" class="active">BTF Meetings</a>
+            </li>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 hidden-xs-down">
+        <div class="vertical-menu">
+          <li class="sanction-head-list first-list"  [ngClass]="{'active': showDTF == true}" >
+            <a (click)="showDTFKeyContacts()" class="active">DTF Meetings</a>
+          </li>
+          <li class="sanction-head-list first-list"  [ngClass]="{'active': showBTF == true}" >
+            <a (click)="showBTFKeyContacts()" class="active">BTF Meetings</a>
+          </li>
+        </div>
+      </div>
+
+      <div class="col-md-9" *ngIf="showDTF">
+        <div>
+            <div class="row">
+              <!-- <div class="col-md-12 short-description"></div>  -->
+              <div class="col-md-12">
+                  <h2 class="under-construction">Under Construction...</h2>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-md-9" *ngIf="showBTF">
+        <div>
+            <div class="row">
+              <!-- <div class="col-md-12 short-description"></div>  -->
+              <div class="col-md-12">
+                  <h2 class="under-construction">Under Construction...</h2>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

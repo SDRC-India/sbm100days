@@ -1,0 +1,40 @@
+<!-- @Swarna -->
+<app-breadcrumb-pagination></app-breadcrumb-pagination>
+<div class="container" *ngIf="galleryDetails.length">
+    <div class="row">
+        <h2 class="title-main">Photo Gallery
+            <div class="col-md-3 searchData searchBoxInHeader inner-addon right-addon">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" [(ngModel)]="searchTexts" class="form-control" placeholder="Search" />
+              </div>
+        </h2>
+    </div>
+    <div class="row short-description">{{galleryData.viewType}}</div>
+    <div id="wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="tab-content">
+                    <div id="photos" class="tab-pane in active photos_display">
+                        <div class="row row_first">
+                            <div *ngFor="let category of galleryDetails | searchText : searchTexts | paginate: { itemsPerPage: 8, currentPage: p }; let i = index "
+                            class="col-md-3 catagory animated " id="kp_day8">
+                                <div class="photo-gallery-box zoom">
+                                    <a (click)="getSubCategory(category)">
+                                        <img src="{{category.data[0].url}}" class="photo-categories ">
+                                        <img src="{{category.data[0].url}}" class="photo-categories album-category-one" >
+                                        <img src="{{category.data[0].url}}" class="photo-categories album-category-two" >
+                                    </a>
+                                </div>
+                                 <div class="gal_txt"><p class="max-height" title="{{category.section}}">{{category.section}}</p></div>
+                            </div>
+                        </div>
+                        <pagination-controls class="pagination" (pageChange)="p = $event" *ngIf="galleryDetails.length > 8"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" [hidden]="(galleryDetails | searchText : searchTexts).length != 0">
+                    <h4 class="text-center no-data-found">No Album Found</h4>
+           </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="col-sm-12 cci-sec">
+  <mat-card id="card">
+    <mat-card-title>
+      <div class="col-md-12 title">
+        <div class="inmate-details">
+          <h2> Swachhagrahi Details</h2>
+        </div>
+      </div>
+        <div class="col-md-12 addbutton-inmates" >
+            <i class="material-icons plus" (click)="clickToNavigate(2)" >add</i>
+            <span class="add-new"> Add Swachhagrahi </span>
+        </div>
+    </mat-card-title>
+    <div class="col-md-12">
+    
+          <sdrc-table [id]="'tab1'" [rowData]="tableData" [columnData]="tableColumns" [maxTableHeight]="'600px'"
+            [sorting]="true" [sortExcludeColumn]="['action', 'rowId']" [isPaginate]="true" [itemsPerPage]="15"
+            [headerFixed]="true" [searchBox]="true" [downloadPdf]="false"
+            (onActionButtonClicked)="actionClicked($event)" [downloadExcel]="false">
+          </sdrc-table> 
+
+    </div>
+  </mat-card>
+</div>

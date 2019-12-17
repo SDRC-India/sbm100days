@@ -1,0 +1,32 @@
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  color: #1f497b;
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.org-structure-img img{
+    height: 500px;
+}
+
+.blank-height {
+    height: 50px;
+}
+
+@media (max-width: 608px) {
+   
+  .org-structure-img img{
+    height: 405px;
+  }
+  .blank-height {
+    height: 100px;
+  }
+  }
+
+  @media (max-width: 480px) {
+    .org-structure-img img{
+        height: 327px;
+    }
+  }

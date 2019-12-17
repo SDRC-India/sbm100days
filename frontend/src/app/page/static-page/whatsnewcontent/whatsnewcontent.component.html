@@ -1,0 +1,23 @@
+
+<app-breadcrumb-pagination></app-breadcrumb-pagination>
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <h4 (click)="redirectToWhatsNew()" class="sub-photo-gallery-head">
+                <img class="back-arrow" src="./assets/icons/back-arrow.png">Back to What's new</h4>
+        </div>
+        <!-- <div class="col-md-12 short-description">{{staticService.contentData.viewType}}</div>  -->
+        <div class="col-md-12">
+            <p>Published On: {{staticService.whatsNewCategory.createdDate}}</p>
+            <p>
+                <a class="pdf-title">{{staticService.whatsNewCategory.title}}</a>{{staticService.whatsNewCategory.content}}
+                <span [hidden]="staticService.whatsNewCategory.fileName == ''"
+                    class="pdf-icon-border">
+                    <a (click)="downloadFiles(staticService.whatsNewCategory.fileName)" title="Download PDF">
+                        <i class="fa fa-download downloaded-icon" aria-hidden="true"></i>
+                    </a>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

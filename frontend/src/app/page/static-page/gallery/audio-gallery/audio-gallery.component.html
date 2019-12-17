@@ -1,0 +1,48 @@
+<!-- @Swarna -->
+<app-breadcrumb-pagination></app-breadcrumb-pagination>
+<div class="container" *ngIf="staticService.contentList.length">
+  <div class="row">
+    <h2 class="title-main">Audio
+      <div class="col-md-3 searchData searchBoxInHeader inner-addon right-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        <input type="text" [(ngModel)]="searchTexts" class="form-control" placeholder="Search" />
+      </div>
+    </h2>
+  </div>
+  <div class="row short-description">{{staticService.contentData.viewType}}</div>
+  <div id="wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="tab-content">
+          <div id="photos" class="tab-pane in active photos_display">
+            <div class="row row_first">
+              <div *ngFor="let category of staticService.contentList | searchText : searchTexts | paginate: { itemsPerPage: 8, currentPage: p }; let i = index" class="col-md-3 catagory animated"
+                id="kp_day8">
+                <div class="title-text audio-background">
+                  <div class="gal_txt" style="background: url(./assets/audio/audio-symbol3.jpg) center;">
+                    <p title="{{category.title}}" class="audio-gallery-box">{{category.title}}</p>
+                    
+                     <!-- <p title="{{category.title}}" class="audio-gallery-box">Praesent quis nisi nec odio vehicula tincidunt sit amet at ante.</p> -->
+                  </div>
+                  <div class="audio-container">
+                    <audio id="{{'myAudio' +i}}" type="audio/mp3">
+                    </audio>
+                    <ul class="icon-inline">
+                      <li class="icon-list" id="{{'play' + i}}" (click)="playAudio(category.fileName,i)">
+                        <img src="./assets/audio/play-button.png"><span id="audio-link">Click here to play audio</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pagination-controls class="pagination" (pageChange)="p = $event" *ngIf="staticService.contentList.length > 8"></pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" [hidden]="(staticService.contentList | searchText : searchTexts).length != 0">
+          <h4 class="text-center no-data-found">No Audio Found</h4>
+    </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<!-- @Swarna -->
+<app-breadcrumb-pagination></app-breadcrumb-pagination>
+<div class="container">
+    <div class="row">
+        <h2 class="title-main">Videos
+            <div class="col-md-3 searchData searchBoxInHeader inner-addon right-addon">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" [(ngModel)]="searchTexts" class="form-control" placeholder="Search" />
+              </div>
+        </h2>
+    </div>
+    <div class="row short-description">{{staticService.shortDescription}}</div>
+    <div id="wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="tab-content">
+                    <div id="photos" class="tab-pane in active photos_display">
+                        <div class="row row_first">
+                            <div *ngFor="let category of staticService.contentList | searchText : searchTexts | paginate: { itemsPerPage: 8, currentPage: p }; let i = index" class="col-md-3 catagory animated"
+                                id="kp_day8">
+                                <div style="width: 100%;margin: 10px 0px;float: none;" (click)=openVideo(category)>
+                                    <img src="{{'http://img.youtube.com/vi/' + getId(category.url) + '/0.jpg'}}" class="photo-categories zoom" alt="Catagory-4">
+                                </div>
+                                <div class="gal_txt">
+                                    <p class="max-height" title="{{category.title}}">{{category.title}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <pagination-controls class="pagination" (pageChange)="p = $event" *ngIf="staticService.contentList.length > 8"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" [hidden]="(staticService.contentList | searchText : searchTexts).length != 0">
+                    <h4 class="text-center no-data-found">No Video Found</h4>
+           </div>
+        </div>
+    </div>
+    <div class="blank-height">
+    </div>
+</div>
+
+<div class="modal" id="openVideo" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                    <iframe id ="videoIframe" width="660" height="315" [src]="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+               {{title}}
+            </div>
+
+        </div>
+    </div>
+</div>

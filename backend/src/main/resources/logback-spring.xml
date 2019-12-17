@@ -1,0 +1,356 @@
+<configuration scan="true" scanPeriod="60 seconds">
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+	<conversionRule conversionWord="clr"
+		converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex"
+		converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx"
+		converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+	<springProfile name="dev,test,local">
+		<property name="LOG_PATH" value="C:/sbm100days/" />
+	</springProfile>
+	
+	<springProfile name="prod">
+		<property name="LOG_PATH" value="/opt/sbm100days/" />
+	</springProfile>
+	
+	<springProfile name="uat">
+		<property name="LOG_PATH" value="C:/opt/sbm100days/" />
+	</springProfile>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}sbm100days.%d{dd-MM-yyyy}.log
+			</fileNamePattern>
+			<!-- <maxHistory>30</maxHistory> -->
+			<totalSizeCap>3GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	 <springProfile name="dev">
+	 	<appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
+			<smtpHost>smtp.gmail.com</smtpHost>
+			<smtpPort>587</smtpPort>
+			<STARTTLS>true</STARTTLS>
+			<username>techsupport@sdrc.co.in</username>
+			<password>*********</password>
+			<subject>Exception Occurred in sbm100days Dev: %logger{20}</subject>
+			<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+			<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+				send just one log entry per email
+				<bufferSize>1</bufferSize>
+			</cyclicBufferTracker>
+		</appender>
+	 </springProfile>
+		
+	<springProfile name="test">
+	 	<appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
+			<smtpHost>smtp.gmail.com</smtpHost>
+			<smtpPort>587</smtpPort>
+			<STARTTLS>true</STARTTLS>
+			<username>techsupport@sdrc.co.in</username>
+			<password>********</password>
+			<to>mitan@sdrc.co.in</to>
+			<to>subrata@sdrc.co.in</to>
+			<to>ashutosh@sdrc.co.in</to>
+			<to>sasmita@sdrc.co.in</to>
+			<subject>Exception Occurred in sbm100days Test: %logger{20}</subject>
+			<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+			<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+				send just one log entry per email
+				<bufferSize>1</bufferSize>
+			</cyclicBufferTracker>
+		</appender>
+	 </springProfile>
+	 	
+	 <springProfile name="prod">
+	 	<appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
+			<smtpHost>smtp.gmail.com</smtpHost>
+			<smtpPort>587</smtpPort>
+			<STARTTLS>true</STARTTLS>
+			<username>techsupport@sdrc.co.in</username>
+			<password>********</password>
+			<to>mitan@sdrc.co.in</to>
+			<to>subrata@sdrc.co.in</to>
+			<to>ashutosh@sdrc.co.in</to>
+			<to>sasmita@sdrc.co.in</to>
+			<subject>Exception Occurred in sbm100days Prod: %logger{20}</subject>
+			<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+			<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+				send just one log entry per email
+				<bufferSize>1</bufferSize>
+			</cyclicBufferTracker>
+		</appender>
+	 </springProfile>	
+
+	<springProfile name="test,dev">
+	<appender name="amqp"
+			class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+			<host>192.168.1.255</host>
+			<port>******</port>
+			<virtualHost>/</virtualHost>
+			<username>*****</username>
+			<password>*******</password>
+			<param name="virtualHost" value="/" />
+			<exchangeType>topic</exchangeType>
+			<exchangeName>sbm100logexchange</exchangeName>
+			<applicationId>sbm100days</applicationId>
+			<routingKeyPattern>logs.elk</routingKeyPattern>
+			<contentType>application/json</contentType>
+			<maxSenderRetries>2</maxSenderRetries>
+			<charset>UTF-8</charset>
+	
+			<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+				<jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+					<prettyPrint>true</prettyPrint>
+				</jsonFormatter>
+				<timestampFormat>dd-MM-yyyy' 'HH:mm:ss.SSS</timestampFormat>
+			</layout>
+		</appender>
+		<logger name="org.springframework" level="error" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.springframework.amqp" level="error" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.hibernate" level="error" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.apache" level="error" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="com.sbm" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<root level="info">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</root>
+	</springProfile>
+	<springProfile name="prod">
+	<appender name="amqp"
+			class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+			<host>172.22.0.41</host>
+			<port>******</port>
+			<virtualHost>/</virtualHost>
+			<username>prod</username>
+			<password>test@123#</password>
+			<param name="virtualHost" value="/" />
+			<exchangeType>topic</exchangeType>
+			<exchangeName>sbm100logexchange</exchangeName>
+			<applicationId>sbm100days</applicationId>
+			<routingKeyPattern>logs.elk</routingKeyPattern>
+			<contentType>application/json</contentType>
+			<maxSenderRetries>2</maxSenderRetries>
+			<charset>UTF-8</charset>
+	
+			<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+				<jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+					<prettyPrint>true</prettyPrint>
+				</jsonFormatter>
+				<timestampFormat>dd-MM-yyyy' 'HH:mm:ss.SSS</timestampFormat>
+			</layout>
+		</appender>
+		<logger name="org.springframework" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.springframework.amqp" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.hibernate" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.apache" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="com.sbm" level="info" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<root level="info">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</root>
+	</springProfile>
+	
+	 <springProfile name="uat">
+	 	<appender name="email" class="ch.qos.logback.classic.net.SMTPAppender">
+			<smtpHost>smtp.gmail.com</smtpHost>
+			<smtpPort>587</smtpPort>
+			<STARTTLS>true</STARTTLS>
+			<username>techsupport@sdrc.co.in</username>
+			<password>********</password>
+			<to>mitan@sdrc.co.in</to>
+			<to>subrata@sdrc.co.in</to>
+			<to>ashutosh@sdrc.co.in</to>
+			<to>sasmita@sdrc.co.in</to>
+			<subject>Exception Occurred in sbm100days uat: %logger{20}</subject>
+			<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+			<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+				send just one log entry per email
+				<bufferSize>1</bufferSize>
+			</cyclicBufferTracker>
+		</appender>
+	 </springProfile>
+	 
+	 <springProfile name="uat">
+	<appender name="amqp"
+			class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+			<host>172.22.0.41</host>
+			<port>******</port>
+			<virtualHost>/</virtualHost>
+			<username>prod</username>
+			<password>test@123#</password>
+			<param name="virtualHost" value="/" />
+			<exchangeType>topic</exchangeType>
+			<exchangeName>sbm100logexchange</exchangeName>
+			<applicationId>sbm100days</applicationId>
+			<routingKeyPattern>logs.elk</routingKeyPattern>
+			<contentType>application/json</contentType>
+			<maxSenderRetries>2</maxSenderRetries>
+			<charset>UTF-8</charset>
+	
+			<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+				<jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+					<prettyPrint>true</prettyPrint>
+				</jsonFormatter>
+				<timestampFormat>dd-MM-yyyy' 'HH:mm:ss.SSS</timestampFormat>
+			</layout>
+		</appender>
+		<logger name="org.springframework" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.springframework.amqp" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.hibernate" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="org.apache" level="error" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<logger name="com.sbm" level="info" additivity="false">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</logger>
+		<root level="info">
+<!-- 			<appender-ref ref="STDOUT" /> -->
+			<appender-ref ref="file" />
+			<appender-ref ref="amqp" />
+			<appender-ref ref="email" />
+		</root>
+	</springProfile>
+	
+	
+ 	<springProfile name="local">
+<!-- 	<appender name="amqp" -->
+<!-- 			class="org.springframework.amqp.rabbit.logback.AmqpAppender"> -->
+<!-- 			<host>localhost</host> -->
+<!-- 			<port>15672</port> -->
+<!-- 			<virtualHost>/</virtualHost> -->
+<!-- 			<username>guest</username> -->
+<!-- 			<password>guest</password> -->
+<!-- 			<param name="virtualHost" value="/" /> -->
+<!-- 			<exchangeType>topic</exchangeType> -->
+<!-- 			<exchangeName>sbm100logexchange</exchangeName> -->
+<!-- 			<applicationId>sbm100days</applicationId> -->
+<!-- 			<routingKeyPattern>logs.elk</routingKeyPattern> -->
+<!-- 			<contentType>application/json</contentType> -->
+<!-- 			<maxSenderRetries>2</maxSenderRetries> -->
+<!-- 			<charset>UTF-8</charset> -->
+	
+<!-- 			<layout class="ch.qos.logback.contrib.json.classic.JsonLayout"> -->
+<!-- 				<jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"> -->
+<!-- 					<prettyPrint>true</prettyPrint> -->
+<!-- 				</jsonFormatter> -->
+<!-- 				<timestampFormat>dd-MM-yyyy' 'HH:mm:ss.SSS</timestampFormat> -->
+<!-- 			</layout> -->
+<!-- 		</appender> -->
+		<logger name="org.springframework" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+		</logger>
+		<logger name="org.springframework.amqp" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+<!-- 			<appender-ref ref="amqp" /> -->
+		</logger>
+		<logger name="org.hibernate" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+		</logger>
+		<logger name="org.apache" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+		</logger>
+		<logger name="com.sbm" level="info" additivity="false">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+<!-- 			<appender-ref ref="amqp" /> -->
+		</logger>
+		<root level="info">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="file" />
+		</root>
+	</springProfile>  
+
+</configuration>

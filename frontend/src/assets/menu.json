@@ -1,0 +1,41 @@
+{
+    "id": 34,
+    "viewName": "Menu",
+    "viewType": null,
+    "viewContent": {
+    "hindi": [],
+    "english": [
+    {
+    "section": "Home",
+    "data": [],
+    "order": 1,
+    "url": ""
+    },
+    {
+    "section": "About Us",
+    "data": [],
+    "order": 2,
+    "url": "pages/aboutus"
+    },
+    {
+    "section": "Organisational Structure",
+    "data": [],
+    "order": 3,
+    "url": "pages/organizationstructure"
+    },
+    {
+    "section": "Dashboard",
+    "data": [],
+    "order": 5,
+    "url": "pages/organizationstructure"
+    },
+    {
+    "section": "Login",
+    "data": [],
+    "order": 6,
+    "url": "pages/organizationstructure"
+    }
+    ]
+    },
+    "updatedDate": null
+    }
